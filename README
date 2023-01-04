@@ -1,0 +1,43 @@
+This program solves the N-S equations in 2D using pseudo spectral algorithm
+Also performs collisions among particles
+compared to 2d_collisions code, in this code, the particle densities are varied keeping their sizes fixed, thus achieving
+different tau
+=============================================================================================================
+COMPILING INSTRUCTIONS
+----------------------
+To compile, run 'make ns2d' in current directory
+'make clean' removes .o files
+'make clean_data' removes all data files
+=============================================================================================================
+RUNNING INSTRUCTIONS
+--------------------
+ns2d takes four input files
+ns2d input1 input2 input3 input4
+input1 should contain variables in the format
+ 'resolution' 'no_of_Iterations' 'delta_t' 'viscosity' 'force_amplitude' 
+ 'coeficient of friction' 'kf' 'nthreads_fftw' 'nthreads_omp' 'flag' 'pflag' 's_flag'
+ to store the velocity field data, set pflag = 0 and flag sets the resolution of stored data
+input2 initializes vorticity in fourier space and should contain data
+ in row major format (both real and imaginary part together)
+If input2 is '0', program assumes a default vorticity profile
+input3 should contain data on particles in format 'no of particles' 'tau_min' 'tau_max' 'no_of_diff_tau'
+input4 initializes particle positions and velocities
+If input4 is '0', program assumes random positions and zero velocity for particles
+============================================================================================================
+The output data is stored after every 1/s_flag th of total iterations
+output data files stored are
+ total energy vs time in 'spectra/energy.dat'
+ energy vs k in 'spectra/eSpectra(n).dat'
+ velocity and vorticity profile in 'field/velProfile(n).dat'
+ particle position in 'particle/particle(n).dat'
+ collision frequecy wrt different stokes numbers in 'colli_freq(n).dat'
+The output vorticity in fourier space is stored in 'init_flow.dat' and
+ particle positions in 'init_part.dat'
+memory required : approx 50 MB for systemSize 1024 (varies as square of systemSize)
+=============================================================================================================
+fourier transforms are evaluated using fftw2.1.5 routines
+fftw2.1.5 documentation available at http://www.fftw.org/fftw2_doc/
+=============================================================================================================
+author : Martin James
+martin.nilambur@gmail.com
+=============================================================================================================
